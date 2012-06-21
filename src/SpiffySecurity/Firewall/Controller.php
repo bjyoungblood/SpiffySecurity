@@ -9,8 +9,10 @@ class Controller extends AbstractFirewall
     protected $rules = array();
     protected $resourceName;
 
-    public function __construct(array $rules)
+    public function __construct(array $rules, $security)
     {
+        $this->securityService = $security;
+
         foreach($rules as $rule) {
             if (!is_array($rule['roles'])) {
                 $rule['roles'] = array($rule['roles']);

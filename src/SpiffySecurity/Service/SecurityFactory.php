@@ -24,8 +24,12 @@ class SecurityFactory implements FactoryInterface
             $security->addRoleProvider($class::factory($sl, $config));
         }
 
+        foreach($options->getResourceProviders() as $class => $config) {
+            $security->addResourceProvider(new $class($config, $security));
+        }
+
         foreach($options->getFirewalls() as $class => $config) {
-            $security->addFirewall(new $class($config));
+            $security->addFirewall(new $class($config, $security));
         }
 
         $identity = $security->options()->getIdentityProvider();

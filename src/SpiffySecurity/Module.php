@@ -42,6 +42,9 @@ class Module
                         $sm->get('SpiffySecurity\Service\Security')
                     );
                 },
+                'SpiffySecurity\Provider\Resource\Firewall' => function($sm) {
+                    return new \SpiffySecurity\Provider\Resource\Firewall($sm->get('SpiffySecurity\Service\Security'));
+                },
                 'SpiffySecurity\View\UnauthorizedStrategy' => 'SpiffySecurity\Service\UnauthorizedStrategyFactory',
                 'SpiffySecurity\Service\Security'          => 'SpiffySecurity\Service\SecurityFactory'
             )

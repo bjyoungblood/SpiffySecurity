@@ -57,6 +57,13 @@ class SecurityOptions extends Options
      */
     protected $roleProviders = array();
 
+    /**
+     * Array of resource providers.
+     *
+     * @var array
+     */
+    protected $resourceProviders = array();
+
     public function setFirewallController($firewallController)
     {
         $this->firewallController = $firewallController;
@@ -110,6 +117,17 @@ class SecurityOptions extends Options
     public function getRoleProviders()
     {
         return $this->roleProviders;
+    }
+
+    public function setResourceProviders($providers)
+    {
+        $this->resourceProviders = $providers;
+        return $this;
+    }
+
+    public function getResourceProviders()
+    {
+        return $this->resourceProviders;
     }
 
     public function setTemplate($template)

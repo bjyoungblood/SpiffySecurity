@@ -6,15 +6,17 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Firewall implements ProviderInterface
 {
-    public function __construct($firewalls)
+    public function __construct(array $options = array(), $security)
     {
-        $this->firewalls = $firewalls;
+        $this->security = $security;
     }
 
     public function getResources()
     {
+        $firewalls = $this->security->getFirewalls();
+
         $resourceNames = array();
-        foreach ($this->firewalls as $i) {
+        foreach ($firewalls as $i) {
             if (in_array($i->getResourceName(), $resourceNames)) {
                 throw new \RuntimeException(sprintf(
                     'Resource name \'%s\' is not unique.',

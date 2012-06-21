@@ -11,6 +11,10 @@ return array(
             )
         ),
 
+        'resourceProviders' => array(
+            'SpiffySecurity\Provider\Resource\Firewall' => array(),
+        ),
+
         'firewalls' => array(
             'SpiffySecurity\Firewall\Controller' => array(
                 array('controller' => 'home', 'roles' => array('guest', 'member'))

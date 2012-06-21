@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use SpiffySecurity\Firewall\AbstractFirewall;
 use SpiffySecurity\Identity;
 use SpiffySecurity\Provider\Role\ProviderInterface as RoleProviderInterface;
+use SpiffySecurity\Provider\Resource\ProviderInterface as ResourceProviderInterface;
 use Zend\Acl\Acl;
 
 class Security
@@ -36,7 +37,12 @@ class Security
     /**
      * @var array
      */
-    protected $providers = array();
+    protected $roleProviders = array();
+
+    /**
+     * @var array
+     */
+    protected $resourceProviders = array();
 
     /**
      * @param array $options
@@ -54,7 +60,21 @@ class Security
      */
     public function isGranted($role)
     {
+        if (!$this->loaded) {
+            $this->load();
+        }
+
         return in_array($role, $this->getIdentity()->getRoles());
+    }
+
+    /**
+     * Access to all firewalls
+     *
+     * @return array
+     */
+    public function getFirewalls()
+    {
+        return $this->firewalls;
     }
 
     /**
@@ -86,6 +106,7 @@ class Security
                 $firewall->getName()
             ));
         }
+
         $this->firewalls[$firewall->getName()] = $firewall;
         return $this;
     }
@@ -96,7 +117,17 @@ class Security
      */
     public function addRoleProvider(RoleProviderInterface $provider)
     {
-        $this->providers[] = $provider;
+        $this->roleProviders[] = $provider;
+        return $this;
+    }
+
+    /**
+     * @param \SpiffySecurity\Provider\Resource\ProviderInterface $provider
+     * @return \SpiffySecurity\Service\Security
+     */
+    public function addResourceProvider(ResourceProviderInterface $provider)
+    {
+        $this->resourceProviders[] = $provider;
         return $this;
     }
 
@@ -174,10 +205,19 @@ class Security
         $acl->addRole($this->options()->getAnonymousRole());
 
         // Add roles from providers
-        foreach($this->providers as $provider) {
+        foreach($this->roleProviders as $provider) {
             foreach($provider->getRoles() as $role) {
                 if (!$acl->hasRole($role)) {
                     $acl->addRole($role);
+                }
+            }
+        }
+
+        // Add resources from providers
+        foreach ($this->resourceProviders as $provider) {
+            foreach ($provider->getResources() as $r) {
+                if (!$acl->hasResource($r)) {
+                    $acl->addResource($r);
                 }
             }
         }
