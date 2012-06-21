@@ -24,7 +24,7 @@ abstract class AbstractFirewall
      * @param string $resource
      * @return bool
      */
-    abstract public function isGranted(IdentityInterface $identity, $resource);
+    abstract public function isGranted(IdentityInterface $identity);
 
     /**
      * @return string

@@ -34,22 +34,14 @@ class Controller extends AbstractFirewall
      * @param string $resource
      * @return bool
      */
-    public function isGranted(IdentityInterface $identity, $resource)
+    public function isGranted(IdentityInterface $identity)
     {
-        $resource   = explode(':', $resource);
-        $controller = $resource[0];
-        $action     = isset($resource[1]) ? $resource[1] : null;
-
-        // Check action first
-        if (isset($this->rules[$controller][$action])) {
-            $roles = $this->rules[$controller][$action];
-        } else if (isset($this->rules[$controller])) {
-            $roles = $this->rules[$controller];
-        } else {
-            return true;
+        if ($this->securityService->getAcl()->hasResource($this->getResourceName())) {
+            return $this->securityService->isGranted($identity, $this->getResourceName());
         }
 
-        return $this->securityService->isGranted($roles);
+        // TODO maybe add the ability to deny by default
+        return true;
     }
 
     /**
