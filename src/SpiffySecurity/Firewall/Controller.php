@@ -7,6 +7,7 @@ use SpiffySecurity\Identity\IdentityInterface;
 class Controller extends AbstractFirewall
 {
     protected $rules = array();
+    protected $resourceName;
 
     public function __construct(array $rules)
     {
@@ -16,8 +17,10 @@ class Controller extends AbstractFirewall
             }
             if (isset($rule['action'])) {
                 $this->rules[$rule['controller']][$rule['action']] = $rule['roles'];
+                $this->resourceName = sprintf('controller/%s:%s', $rule['controller'], $rule['action']);
             } else {
                 $this->rules[$rule['controller']] = $rule['roles'];
+                $this->resourceName = sprintf('controller/%s', $rule['controller']);
             }
         }
     }
@@ -55,5 +58,10 @@ class Controller extends AbstractFirewall
     public function getName()
     {
         return 'controller';
+    }
+ 
+    public function getResourceName()
+    {
+        return $this->resourceName;
     }
 }

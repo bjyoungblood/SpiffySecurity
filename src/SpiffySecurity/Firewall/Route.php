@@ -17,6 +17,11 @@ class Route extends AbstractFirewall
     protected $ruleRegex;
 
     /**
+     * @var string
+     */
+    protected $resourceName;
+
+    /**
      * @param array $rules
      */
     public function __construct(array $rules)
@@ -31,6 +36,7 @@ class Route extends AbstractFirewall
             $regex[] = str_replace('/', '\/', '(' . $rule['route'] . ')');
         }
 
+        $this->resourceName = sprintf('route/%s', $rule['route']);
         $this->ruleRegex = sprintf('/%s/', implode('|', $regex));
     }
 
@@ -78,5 +84,10 @@ class Route extends AbstractFirewall
     public function getName()
     {
         return 'route';
+    }
+ 
+    public function getResourceName()
+    {
+        return $this->resourceName;
     }
 }
