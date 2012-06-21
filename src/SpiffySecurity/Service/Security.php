@@ -5,7 +5,7 @@ namespace SpiffySecurity\Service;
 use InvalidArgumentException;
 use SpiffySecurity\Firewall\AbstractFirewall;
 use SpiffySecurity\Identity;
-use SpiffySecurity\Provider\ProviderInterface;
+use SpiffySecurity\Provider\Role\ProviderInterface as RoleProviderInterface;
 use Zend\Acl\Acl;
 
 class Security
@@ -91,10 +91,10 @@ class Security
     }
 
     /**
-     * @param \SpiffySecurity\Provider\ProviderInterface $provider
+     * @param \SpiffySecurity\Provider\Role\ProviderInterface $provider
      * @return \SpiffySecurity\Service\Security
      */
-    public function addProvider(ProviderInterface $provider)
+    public function addRoleProvider(RoleProviderInterface $provider)
     {
         $this->providers[] = $provider;
         return $this;

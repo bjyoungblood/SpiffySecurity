@@ -55,7 +55,7 @@ class SecurityOptions extends Options
      *
      * @var array
      */
-    protected $providers = array();
+    protected $roleProviders = array();
 
     public function setFirewallController($firewallController)
     {
@@ -101,15 +101,15 @@ class SecurityOptions extends Options
         return $this->identityProvider;
     }
 
-    public function setProviders($providers)
+    public function setRoleProviders($providers)
     {
-        $this->providers = $providers;
+        $this->roleProviders = $providers;
         return $this;
     }
 
-    public function getProviders()
+    public function getRoleProviders()
     {
-        return $this->providers;
+        return $this->roleProviders;
     }
 
     public function setTemplate($template)

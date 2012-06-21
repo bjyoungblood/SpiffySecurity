@@ -1,6 +1,6 @@
 <?php
 
-namespace SpiffySecurity\Provider;
+namespace SpiffySecurity\Provider\Role;
 
 use DomainException;
 use Zend\ServiceManager\ServiceLocatorInterface;

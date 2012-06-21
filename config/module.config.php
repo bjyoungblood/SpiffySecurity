@@ -1,8 +1,8 @@
 <?php
 return array(
     'security' => array(
-        'providers' => array(
-            'SpiffySecurity\Provider\ZendDb' => array(
+        'roleProviders' => array(
+            'SpiffySecurity\Provider\Role\ZendDb' => array(
                 'adapter' => 'Zend\Db\Adapter\Adapter', // alias to your db adapter
                 'options' => array(
                     'table'       => 'role',
